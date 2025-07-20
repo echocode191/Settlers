@@ -14,17 +14,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
 
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="/manifest.webmanifest" />
+  <!-- ⚠️ DO NOT manually add manifest if using VitePWA -->
+  <!-- <link rel="manifest" href="/manifest.webmanifest" /> -->
 </head>
 <body style="margin:0; font-family:'Fira Code', monospace; background-color:#0d1117; color:#c9d1d9; overflow-x:hidden;">
-  
-  <div id="fb-root"></div> <!-- ✅ Moved here -->
+
+  <div id="fb-root"></div>
 
   <noscript>
     <strong>This site requires JavaScript. Please enable it to continue.</strong>
   </noscript>
 
   <div id="root"></div>
+
+  <!-- ✅ Optional: Manual fallback if you don’t use VitePWA -->
+  <!-- <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+        .catch(err => console.error('❌ SW registration failed:', err));
+    }
+  </script> -->
 </body>
 </html>
