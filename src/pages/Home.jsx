@@ -14,11 +14,11 @@ const Home = () => {
   const [phraseIndex, setPhraseIndex] = useState(0);
 
   useEffect(() => {
-    // Year update
+    // Set year
     const yearEl = document.getElementById("year");
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    // Rotate welcome messages
+    // Rotate welcome phrases
     const msgInterval = setInterval(() => {
       setPhraseIndex(prev => (prev + 1) % funnyPhrases.length);
     }, 4000);
@@ -43,14 +43,30 @@ const Home = () => {
     <>
       <Navbar />
 
-      {/* HERO SECTION */}
-      <section className="hero">
-        {/* Background Video */}
-        <video className="bg-video" autoPlay muted loop playsInline>
+      {/* HERO SECTION with fallback */}
+      <section
+        className="hero"
+        style={{
+          backgroundImage: 'url(/assets/banner.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        <video
+          className="bg-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          onError={(e) => {
+            e.target.style.display = 'none';
+          }}
+        >
           <source src="/assets/settlers.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
         </video>
 
-        {/* Fallback hero content */}
         <div className="hero-content">
           <h2 className="animated-title">Welcome to Settlers Inn</h2>
           <p className="rotating-phrase">{funnyPhrases[phraseIndex]}</p>
@@ -60,7 +76,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* INTRO SECTION */}
+      {/* INTRO */}
       <section>
         <div className="intro">
           <p>
@@ -85,7 +101,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* REVIEWS SECTION */}
+      {/* REVIEWS */}
       <section className="reviews">
         <h2>💬 What People Are Saying</h2>
         <div className="review-grid">
@@ -103,7 +119,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Facebook Reviews */}
         <div className="fb-reviews">
           <h2>💬 Facebook Reviews (Live)</h2>
           <div className="fb-page"
@@ -114,7 +129,8 @@ const Home = () => {
             data-small-header="false"
             data-adapt-container-width="true"
             data-hide-cover="false"
-            data-show-facepile="true">
+            data-show-facepile="true"
+          >
             <blockquote cite="https://www.facebook.com/settlersinn1/" className="fb-xfbml-parse-ignore">
               <a href="https://www.facebook.com/settlersinn1/">Settlers Inn</a>
             </blockquote>
@@ -124,7 +140,7 @@ const Home = () => {
 
       <Footer />
 
-      {/* QUICK ACCESS */}
+      {/* QUICK ACTIONS */}
       <div className="quick-access">
         <a href="tel:0748778388" title="Call Us">📞</a>
         <a href="https://maps.app.goo.gl/hvW5TubkM8WGcfAs5" target="_blank" rel="noreferrer" title="Find Us">🧭</a>
@@ -134,7 +150,7 @@ const Home = () => {
         <a href="https://wa.me/254748778388" target="_blank" rel="noreferrer" title="Chat on WhatsApp">💬</a>
       </div>
 
-      {/* Copyright */}
+      {/* COPYRIGHT */}
       <span id="year" style={{ display: 'block', textAlign: 'center', marginTop: '2rem', color: '#666' }}></span>
     </>
   );

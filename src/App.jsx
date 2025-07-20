@@ -1,7 +1,6 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
-// Route Pages
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Accommodation from './pages/Accommodation';
@@ -25,12 +24,12 @@ const App = () => {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    console.log('✅ App mounted');
-
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
       setShowBanner(true);
+
+      // Auto-hide banner after 7 seconds
       setTimeout(() => setShowBanner(false), 7000);
     });
   }, []);
@@ -40,7 +39,7 @@ const App = () => {
       deferredPrompt.prompt();
       const result = await deferredPrompt.userChoice;
       if (result.outcome === 'accepted') {
-        console.log('📲 User accepted install prompt');
+        console.log('User accepted install');
       }
       setDeferredPrompt(null);
       setShowBanner(false);
@@ -58,34 +57,21 @@ const App = () => {
         </div>
       )}
 
-      {/* Routes */}
-      <Suspense fallback={<div style={fallbackStyle}>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/accommodation" element={<Accommodation />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/location" element={<Location />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/offers" element={<Offers />} />
-          {/* 404 fallback route */}
-          <Route
-            path="*"
-            element={
-              <div style={fallbackStyle}>
-                <h2>404 – Page Not Found</h2>
-                <p>The page you're looking for doesn't exist.</p>
-              </div>
-            }
-          />
-        </Routes>
-      </Suspense>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/accommodation" element={<Accommodation />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/location" element={<Location />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/offers" element={<Offers />} />
+      </Routes>
     </Router>
   );
 };
 
-// 💡 PWA Install Banner Style
+// 🔥 Toast-like banner style
 const installBannerStyle = {
   position: 'fixed',
   top: '10px',
@@ -102,14 +88,7 @@ const installBannerStyle = {
   animation: 'fadeInOut 7s ease-in-out',
 };
 
-// 💡 Fallback Loader & 404 Styling
-const fallbackStyle = {
-  padding: '2rem',
-  textAlign: 'center',
-  color: '#c9d1d9',
-};
-
-// CSS Animation Keyframes (injected manually)
+// Optional CSS animation (inject in your CSS file)
 const bannerAnimation = `
 @keyframes fadeInOut {
   0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
@@ -118,6 +97,8 @@ const bannerAnimation = `
   100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
 `;
+
+// Inject animation to document
 if (typeof document !== 'undefined') {
   const style = document.createElement('style');
   style.innerHTML = bannerAnimation;
